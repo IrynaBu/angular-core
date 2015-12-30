@@ -11,7 +11,7 @@
 angular.module('yoNewAngularApp')
   .controller('AboutCtrl', function () {
     this.awesomeThings = [
-      'HTML5 Boilerplate ffff',
+      'HTML5 Boilerplate ',
       'AngularJS',
       'Karma'
     ];

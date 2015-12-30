@@ -11,9 +11,9 @@
 angular.module('yoNewAngularApp')
   .controller('MainCtrl', function () {
     this.awesomeThings = [
-      'HTML5 Boilerplate hghghg',
+      'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
-  })
+  });
 })();

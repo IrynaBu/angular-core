@@ -11,7 +11,7 @@
 	 */
 	angular
 		.module('yoNewAngularApp')
-		.config(function ($stateProvider, $urlRouterProvider, $translateProvider, $httpProvider, blockUIConfig, LOCALE) {
+		.config(function ($stateProvider, $urlRouterProvider, $translateProvider, $httpProvider, LOCALE) {
 
 			/**
 			 * we need to set crossdomain cookie for develop only
@@ -22,21 +22,17 @@
 			var defaultLocale = LOCALE.DE;
 
 			//localization config
-			$translateProvider.useLoader('$localizationProvider');
-			$translateProvider.preferredLanguage(defaultLocale);
-			$translateProvider.useCookieStorage();
-
-			blockUIConfig.delay = 0;
-
-			$urlRouterProvider.otherwise('/');
+//			$translateProvider.useLoader('$localizationProvider');
+//			$translateProvider.preferredLanguage(defaultLocale);
+//			$translateProvider.useCookieStorage();
 
 			$stateProvider
 				.state('main', {
 					url: '/',
 					views: {
 						'': {
-							templateUrl: 'components/main/main.html',
-							controller: 'MainCtrl2',
+							templateUrl: 'app/components/main/main.html',
+							controller: 'MainCtrl',
 							controllerAs: 'main'
 						}
 					}
@@ -45,27 +41,14 @@
 					url: '/about',
 					views: {
 						'': {
-							templateUrl: 'components/about/about.html',
+							templateUrl: 'app/components/about/about.html',
 							controller: 'AboutCtrl',
 							controllerAs: 'about'
 						}
 					}
 				});
 
-//			$routeProvider
-//				.when('/', {
-//					templateUrl: 'views/main.html',
-//					controller: 'MainCtrl2',
-//					controllerAs: 'main'
-//				})
-//				.when('/about', {
-//					templateUrl: 'views/about.html',
-//					controller: 'AboutCtrl',
-//					controllerAs: 'about'
-//				})
-//				.otherwise({
-//					redirectTo: '/'
-//				});
+			$urlRouterProvider.otherwise('/');
 		})
 		.run(function ($translate, $rootScope, $state) {
 

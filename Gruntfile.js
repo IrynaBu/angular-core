@@ -1,4 +1,4 @@
-// Generated on 2015-12-29 using generator-angular 0.15.1
+// Generated on 2015-12-30 using generator-angular 0.15.1
 'use strict';
 
 // # Globbing
@@ -21,9 +21,9 @@ module.exports = function (grunt) {
 
 	// Configurable paths for the application
 	var appConfig = {
-		app: require('./bower.json').appPath || 'client',
+		app: 'client',
 		dist: 'dist',
-		assets: 'assets'
+		tmp: '.tmp'
 	};
 
 	// Define the configuration for all the tasks
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
 				tasks: ['wiredep']
 			},
 			js: {
-				files: ['<%= yeoman.app %>/app/**/*.js'],
+				files: ['<%= yeoman.app %>/app/**/*.js'],//'<%= yeoman.app %>/app/**/*.js'
 				tasks: ['newer:jshint:all', 'newer:jscs:all'],
 				options: {
 					livereload: '<%= connect.options.livereload %>'
@@ -61,17 +61,17 @@ module.exports = function (grunt) {
 					livereload: '<%= connect.options.livereload %>'
 				},
 				files: [
-					'<%= yeoman.app %>/app/**/*.html',
-					'<%= yeoman.app %>/app/**/*.js',
-					'<%= yeoman.app %>/assets/styles/{,*/}*.scss',
+					'<%= yeoman.app %>/{,*/}*.html',
+					'.tmp/styles/{,*/}*.css',
 					'<%= yeoman.app %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
 				]
 			},
 			includeSource: {
 				files: [
-					'<%= yeoman.app %>/app/**/*.js'
+					'<%= yeoman.app %>/app/**/*.js',
+					"!Gruntfile.js"
 				],
-				tasks: ['includeSource:server', 'wiredep'],
+				tasks: ['clean:tmp', 'copy:index', 'includeSource:server', 'wiredep'],
 				options: {
 					event: ['added', 'deleted']
 				}
@@ -85,7 +85,7 @@ module.exports = function (grunt) {
 			},
 			server: {
 				files: {
-					'<%= yeoman.app %>/index.html': '<%= yeoman.app %>/index.tmp.html'
+					'<%= yeoman.tmp %>/index.html': '<%= yeoman.app %>/index.html'
 				}
 			},
 			dist: {
@@ -195,7 +195,9 @@ module.exports = function (grunt) {
 					]
 				}]
 			},
-			server: '.tmp'
+			server: '.tmp',
+			index: '<%= yeoman.app %>/index.html',
+			tmp: '<%= yeoman.tmp %>/index.html'
 		},
 
 		// Add vendor prefixed styles
@@ -262,11 +264,11 @@ module.exports = function (grunt) {
 				generatedImagesDir: '.tmp/images/generated',
 				imagesDir: '<%= yeoman.app %>/assets/images',
 				javascriptsDir: '<%= yeoman.app %>/app',
-				fontsDir: '<%= yeoman.app %>/assets/styles/fonts',
+				fontsDir: '<%= yeoman.app %>/styles/fonts',
 				importPath: './bower_components',
-				httpImagesPath: '/images',
+				httpImagesPath: '/assets/images',//httpImagesPath: '/images',
 				httpGeneratedImagesPath: '/images/generated',
-				httpFontsPath: '/styles/fonts',
+				httpFontsPath: '/assets/styles/fonts',
 				relativeAssets: false,
 				assetCacheBuster: false,
 				raw: 'Sass::Script::Number.precision = 10\n'
@@ -287,7 +289,7 @@ module.exports = function (grunt) {
 		filerev: {
 			dist: {
 				src: [
-					'<%= yeoman.dist %>/**/*.js',
+					'<%= yeoman.dist %>/scripts/{,*/}*.js',
 					'<%= yeoman.dist %>/styles/{,*/}*.css',
 					'<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
 					'<%= yeoman.dist %>/styles/fonts/*'
@@ -399,12 +401,12 @@ module.exports = function (grunt) {
 		ngtemplates: {
 			dist: {
 				options: {
-					module: 'yoNewAngularApp',
+					module: 'yyyApp',
 					htmlmin: '<%= htmlmin.dist.options %>',
 					usemin: 'scripts/scripts.js'
 				},
 				cwd: '<%= yeoman.app %>',
-				src: '<%= yeoman.app %>/**/*.html',
+				src: 'app/**/*.html',
 				dest: '.tmp/templateCache.js'
 			}
 		},
@@ -440,7 +442,6 @@ module.exports = function (grunt) {
 					src: [
 						'*.{ico,png,txt}',
 						'*.html',
-						'!**/*.gz',
 						'images/{,*/}*.{webp}',
 						'styles/fonts/{,*/}*.*'
 					]
@@ -461,7 +462,15 @@ module.exports = function (grunt) {
 				cwd: '<%= yeoman.app %>/assets/styles',
 				dest: '.tmp/styles/',
 				src: '{,*/}*.css'
-			}
+			},
+			index: {
+				files: [{
+					expand: true,
+					cwd: '<%= yeoman.app %>',
+					src: 'index.html',
+					dest: '<%= yeoman.tmp %>/'
+				}]
+			},
 		},
 
 		// Run some tasks in parallel to speed up the build process
@@ -497,9 +506,9 @@ module.exports = function (grunt) {
 		grunt.task.run([
 			'clean:server',
 			'wiredep',
-			'includeSource:server',
 			'concurrent:server',
 			'postcss:server',
+			'includeSource:server',
 			'connect:livereload',
 			'watch'
 		]);
