@@ -403,7 +403,7 @@ module.exports = function (grunt) {
 		ngtemplates: {
 			dist: {
 				options: {
-					module: 'yyyApp',
+					module: 'yoNewAngularApp',
 					htmlmin: '<%= htmlmin.dist.options %>',
 					usemin: 'scripts/scripts.js'
 				},
