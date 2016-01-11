@@ -20,6 +20,7 @@
 		'ngSanitize',
 		'ngTouch',
 		'ui.router',
-		'pascalprecht.translate'
+		'pascalprecht.translate',
+		'tmh.dynamicLocale'
 	]);
 })();

@@ -11,7 +11,7 @@
 	 */
 	angular
 		.module('yoNewAngularApp')
-		.config(function ($stateProvider, $urlRouterProvider, $translateProvider, $httpProvider, LOCALE) {
+		.config(function ($stateProvider, $urlRouterProvider, $translateProvider, $httpProvider, tmhDynamicLocaleProvider, LOCALE, PATH_CONFIG) {
 
 			/**
 			 * we need to set crossdomain cookie for develop only
@@ -22,9 +22,17 @@
 			var defaultLocale = LOCALE.DE;
 
 			//localization config
-//			$translateProvider.useLoader('$localizationProvider');
-//			$translateProvider.preferredLanguage(defaultLocale);
-//			$translateProvider.useCookieStorage();
+			$translateProvider.useStaticFilesLoader({
+				prefix: PATH_CONFIG.TRANSLATE_JSON_PATH + 'translation_',
+				suffix: '.json'
+			}).registerAvailableLanguageKeys(['en', 'de'], {
+				'en_EN': 'en', 'de_DE': 'de'
+			});
+			$translateProvider.preferredLanguage(defaultLocale);
+			$translateProvider.useCookieStorage();
+
+			//Angular Dynamic Locale config
+			tmhDynamicLocaleProvider.localeLocationPattern(PATH_CONFIG.I18N_PATH_TEMPLATE);
 
 			$stateProvider
 				.state('main', {
