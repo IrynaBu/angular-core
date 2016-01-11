@@ -59,17 +59,16 @@
       </div>
     </div>
 
+	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+	<script>
+		!function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+					(A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+				r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+		}(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>
+		ga('create', 'UA-XXXXX-X');
+		ga('send', 'pageview');
+	</script>
 
 	<!-- build:js(.) scripts/vendor.js -->
 	<!-- bower:js -->
@@ -92,10 +91,13 @@
 	<!-- endbower -->
 	<!-- endbuild -->
 
-	<!-- build:js({.tmp, app}) scripts/scripts.js -->
+	<!-- build:js scripts/scripts.js -->
 	<!-- include: "type": "js", "files": ["app/app.js", "!app/app.*.js"] -->
 	<!-- include: "type": "js", "files": ["app/app.*.js", "!app/app.js"] -->
 	<!-- include: "type": "js", "files": ["**/*.js", "!app/app.*.js", "!app/app.js"] -->
+	<!-- endbuild -->
+
+	<!-- build:js(.) scripts/template.js -->
 	<!-- endbuild -->
 
 

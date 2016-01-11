@@ -94,6 +94,11 @@ module.exports = function (grunt) {
 				files: {
 					'<%= yeoman.dist %>/index.html': '<%= yeoman.app %>/index.html'
 				}
+			},
+			tmp: {
+				files: {
+					'<%= yeoman.tmp %>/index.html': '<%= yeoman.tmp %>/index.html'
+				}
 			}
 		},
 
@@ -198,7 +203,6 @@ module.exports = function (grunt) {
 				}]
 			},
 			server: '.tmp',
-			index: '<%= yeoman.app %>/index.html',
 			tmp: '<%= yeoman.tmp %>/index.html'
 		},
 
@@ -303,7 +307,7 @@ module.exports = function (grunt) {
 		// concat, minify and revision files. Creates configurations in memory so
 		// additional tasks can operate on them
 		useminPrepare: {
-			html: '<%= yeoman.app %>/index.html',
+			html: '<%= yeoman.tmp %>/index.html',
 			options: {
 				dest: '<%= yeoman.dist %>',
 				flow: {
@@ -405,7 +409,7 @@ module.exports = function (grunt) {
 				options: {
 					module: 'yoNewAngularApp',
 					htmlmin: '<%= htmlmin.dist.options %>',
-					usemin: 'scripts/scripts.js'
+					usemin: 'scripts/template.js'
 				},
 				cwd: '<%= yeoman.app %>',
 				src: 'app/**/*.html',
@@ -532,8 +536,10 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('build', [
 		'clean:dist',
+		'clean:tmp',
+		'copy:index',
+		'includeSource:tmp',
 		'wiredep',
-		'includeSource:dist',
 		'useminPrepare',
 		'concurrent:dist',
 		'postcss',
