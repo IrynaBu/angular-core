@@ -272,9 +272,9 @@ module.exports = function (grunt) {
 				javascriptsDir: '<%= yeoman.app %>/app',
 				fontsDir: '<%= yeoman.app %>/styles/fonts',
 				importPath: './bower_components',
-				httpImagesPath: '/assets/images',//httpImagesPath: '/images',
+				httpImagesPath: '/images',//httpImagesPath: '/images',
 				httpGeneratedImagesPath: '/images/generated',
-				httpFontsPath: '/assets/styles/fonts',
+				httpFontsPath: '/styles/fonts',
 				relativeAssets: false,
 				assetCacheBuster: false,
 				raw: 'Sass::Script::Number.precision = 10\n'
@@ -352,18 +352,34 @@ module.exports = function (grunt) {
 		//     }
 		//   }
 		// },
-		// uglify: {
-		//   dist: {
-		//     files: {
-		//       '<%= yeoman.dist %>/scripts/scripts.js': [
-		//         '<%= yeoman.dist %>/scripts/scripts.js'
-		//       ]
-		//     }
-		//   }
-		// },
-		// concat: {
-		//   dist: {}
-		// },
+		 uglify: {
+           main:{
+               files:{
+                   '<%= yeoman.dist %>/scripts/scripts.js':'<%= yeoman.tmp %>/concat/scripts/scripts.js'
+               }
+           },
+             template: {
+                 files: {
+                     '<%= yeoman.dist %>/scripts/template.js': '<%= yeoman.tmp %>/templateCache.js'
+                 }
+             },
+		   dist: {
+		     files: {
+		       '<%= yeoman.dist %>/scripts/scripts.js': [
+		         '<%= yeoman.dist %>/scripts/scripts.js'
+		       ]
+		     }
+		   }
+		 },
+        concat: {
+            main: {
+                src: [
+                    '<%= yeoman.app %>/app/**/*.js'
+                ],
+                dest: '<%= yeoman.tmp %>/concat/scripts/scripts.js'
+            },
+            dist: {}
+		 },
 
 		imagemin: {
 			dist: {
@@ -538,19 +554,22 @@ module.exports = function (grunt) {
 		'clean:dist',
 		'clean:tmp',
 		'copy:index',
-		'includeSource:tmp',
+		'includeSource:server',
+        'concat:main',
 		'wiredep',
 		'useminPrepare',
-		'concurrent:dist',
-		'postcss',
-		'ngtemplates',
-		'concat',
+        'concat',
+        'concurrent:dist',
+        'postcss',
+        'ngtemplates',
 		'ngAnnotate',
 		'copy:dist',
 		'cdnify',
 		'cssmin',
+        'uglify:main',
 		'uglify',
-		'filerev',
+        'uglify:template',
+        'filerev',
 		'usemin',
 		'htmlmin'
 	]);
