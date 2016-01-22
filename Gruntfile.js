@@ -474,8 +474,8 @@ module.exports = function (grunt) {
 			},
 			styles: {
 				expand: true,
-				cwd: '<%= yeoman.app %>/assets/styles',
-				dest: '.tmp/styles/',
+				cwd: '<%= yeoman.tmp %>/styles',
+				dest: '<%= yeoman.tmp %>/concat/styles/',
 				src: '{,*/}*.css'
 			},
 			index: {
@@ -565,10 +565,11 @@ module.exports = function (grunt) {
         'wiredep',
         'useminPrepare',
         'ngtemplates',
-        'concat',
         'concurrent:dist',
         'postcss',
-		'ngAnnotate',
+        'concat',
+        'copy:styles',
+        'ngAnnotate',
 		'copy:dist',
 		'cdnify',
 		'cssmin',
