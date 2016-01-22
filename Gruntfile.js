@@ -309,24 +309,15 @@ module.exports = function (grunt) {
 		useminPrepare: {
 			html: '<%= yeoman.tmp %>/index.html',
 			options: {
-				dest: '<%= yeoman.dist %>',
-				flow: {
-					html: {
-						steps: {
-							js: ['concat', 'uglifyjs'],
-							css: ['cssmin']
-						},
-						post: {}
-					}
-				}
+				dest: '<%= yeoman.dist %>'
 			}
 		},
 
 		// Performs rewrites based on filerev and the useminPrepare configuration
 		usemin: {
-			html: ['<%= yeoman.dist %>/{,*/}*.html'],
-			css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
-			js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
+			html: ['<%= yeoman.tmp %>/{,*/}*.html'],
+			css: ['<%= yeoman.tmp %>/styles/{,*/}*.css'],
+			js: ['<%= yeoman.tmp %>/scripts/{,*/}*.js'],
 			options: {
 				assetsDirs: [
 					'<%= yeoman.dist %>',
@@ -360,7 +351,7 @@ module.exports = function (grunt) {
            },
              template: {
                  files: {
-                     '<%= yeoman.dist %>/scripts/template.js': '<%= yeoman.tmp %>/templateCache.js'
+                     '<%= yeoman.tmp %>/concat/scripts/template.js': '<%= yeoman.tmp %>/templateCache.js'
                  }
              },
 		   dist: {
@@ -372,14 +363,16 @@ module.exports = function (grunt) {
 		   }
 		 },
         concat: {
-            main: {
-                src: [
-                    '<%= yeoman.app %>/app/**/*.js'
-                ],
-                dest: '<%= yeoman.tmp %>/concat/scripts/scripts.js'
-            },
-            dist: {}
-		 },
+            options: {
+                // Use «;» as concat separator only for js-files
+                process: function (src, filepath) {
+                    if (filepath.split(/\./).pop() === 'js') {
+                        return src + ';\n';
+                    }
+                    return src;
+                }
+            }
+        },
 
 		imagemin: {
 			dist: {
@@ -493,6 +486,14 @@ module.exports = function (grunt) {
 					dest: '<%= yeoman.tmp %>/'
 				}]
 			},
+            tmp: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.tmp %>',
+                    src: 'index.html',
+                    dest: '<%= yeoman.dist %>/'
+                }]
+            }
 		},
 
 		// Run some tasks in parallel to speed up the build process
@@ -554,10 +555,9 @@ module.exports = function (grunt) {
 		'clean:dist',
 		'clean:tmp',
 		'copy:index',
-		'includeSource:server',
-        'concat:main',
-		'wiredep',
-		'useminPrepare',
+        'includeSource:server',
+        'wiredep',
+        'useminPrepare',
         'concat',
         'concurrent:dist',
         'postcss',
@@ -566,12 +566,13 @@ module.exports = function (grunt) {
 		'copy:dist',
 		'cdnify',
 		'cssmin',
-        'uglify:main',
 		'uglify',
+        'uglify:main',
         'uglify:template',
         'filerev',
 		'usemin',
-		'htmlmin'
+		'htmlmin',
+        'copy:tmp'
 	]);
 
 	grunt.registerTask('default', [

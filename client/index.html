@@ -92,11 +92,14 @@
 	<!-- endbuild -->
 
 
+    <!-- build:js(client) scripts/scripts.js -->
 	<!-- include: "type": "js", "files": ["app/app.js", "!app/app.*.js"] -->
 	<!-- include: "type": "js", "files": ["app/app.*.js", "!app/app.js"] -->
 	<!-- include: "type": "js", "files": ["**/*.js", "!app/app.*.js", "!app/app.js"] -->
+    <!-- endbuild -->
 
 	<!-- build:js(.) scripts/template.js -->
+    <script src="templateCache.js"></script>
 	<!-- endbuild -->
 
 
