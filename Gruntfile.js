@@ -343,36 +343,36 @@ module.exports = function (grunt) {
 		//     }
 		//   }
 		// },
-		 uglify: {
-           main:{
-               files:{
-                   '<%= yeoman.dist %>/scripts/scripts.js':'<%= yeoman.tmp %>/concat/scripts/scripts.js'
-               }
-           },
-             template: {
-                 files: {
-                     '<%= yeoman.tmp %>/concat/scripts/template.js': '<%= yeoman.tmp %>/templateCache.js'
-                 }
-             },
-		   dist: {
-		     files: {
-		       '<%= yeoman.dist %>/scripts/scripts.js': [
-		         '<%= yeoman.dist %>/scripts/scripts.js'
-		       ]
-		     }
-		   }
-		 },
-        concat: {
-            options: {
-                // Use «;» as concat separator only for js-files
-                process: function (src, filepath) {
-                    if (filepath.split(/\./).pop() === 'js') {
-                        return src + ';\n';
-                    }
-                    return src;
-                }
-            }
-        },
+//		 uglify: {
+//           main:{
+//               files:{
+//                   '<%= yeoman.dist %>/scripts/scripts.js':'<%= yeoman.tmp %>/concat/scripts/scripts.js'
+//               }
+//           },
+//             template: {
+//                 files: {
+//                     '<%= yeoman.tmp %>/concat/scripts/template.js': '<%= yeoman.tmp %>/templateCache.js'
+//                 }
+//             },
+//		   dist: {
+//		     files: {
+//		       '<%= yeoman.dist %>/scripts/scripts.js': [
+//		         '<%= yeoman.dist %>/scripts/scripts.js'
+//		       ]
+//		     }
+//		   }
+//		 },
+//        concat: {
+//            options: {
+//                // Use «;» as concat separator only for js-files
+//                process: function (src, filepath) {
+//                    if (filepath.split(/\./).pop() === 'js') {
+//                        return src + ';\n';
+//                    }
+//                    return src;
+//                }
+//            }
+//        },
 
 		imagemin: {
 			dist: {
@@ -493,6 +493,12 @@ module.exports = function (grunt) {
                     src: 'index.html',
                     dest: '<%= yeoman.dist %>/'
                 }]
+            },
+            localization: {
+                expand: true,
+                cwd: '<%= yeoman.app %>/assets/localization/',
+                src: '{,*/}*json',
+                dest: '<%= yeoman.dist %>/assets/localization'
             }
 		},
 
@@ -558,21 +564,20 @@ module.exports = function (grunt) {
         'includeSource:server',
         'wiredep',
         'useminPrepare',
+        'ngtemplates',
         'concat',
         'concurrent:dist',
         'postcss',
-        'ngtemplates',
 		'ngAnnotate',
 		'copy:dist',
 		'cdnify',
 		'cssmin',
 		'uglify',
-        'uglify:main',
-        'uglify:template',
         'filerev',
 		'usemin',
 		'htmlmin',
-        'copy:tmp'
+        'copy:tmp',
+        'copy:localization'
 	]);
 
 	grunt.registerTask('default', [
